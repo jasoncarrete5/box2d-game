@@ -35,4 +35,11 @@ public class App extends Game {
 		uiskin.dispose();
 		Gdx.app.log("App", "Game Disposed");
 	}
+	
+	/**
+	 * @return The width of the screen divided by the height.
+	 */
+	public float getScreenRatio() {
+		return (float)Gdx.graphics.getWidth() / Gdx.graphics.getHeight();
+	}
 }
