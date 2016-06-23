@@ -4,6 +4,7 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class App extends Game {
@@ -18,6 +19,7 @@ public class App extends Game {
 	@Override
 	public void create () {
 		Gdx.app.setLogLevel(Application.LOG_INFO);
+		Box2D.init();
 		
 		game = this;
 		uiskin = new Skin(Gdx.files.internal("ui/uiskin.json"));
