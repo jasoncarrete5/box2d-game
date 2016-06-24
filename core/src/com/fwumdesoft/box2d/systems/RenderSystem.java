@@ -9,7 +9,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.fwumdesoft.box2d.components.Render;
 
 public class RenderSystem extends IteratingSystem {
-	private static ComponentMapper<Render> rm = ComponentMapper.getFor(Render.class);
+	private static ComponentMapper<Render> renderMapper = ComponentMapper.getFor(Render.class);
 	private Batch batch;
 	private Viewport viewport;
 	
@@ -29,7 +29,7 @@ public class RenderSystem extends IteratingSystem {
 
 	@Override
 	protected void processEntity(Entity entity, float deltaTime) {
-		Render render = rm.get(entity);
+		Render render = renderMapper.get(entity);
 		render.getSprite().draw(batch);
 	}
 }
