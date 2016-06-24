@@ -68,6 +68,7 @@ public class GameScreen extends ScreenAdapter {
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyType.DynamicBody;
 		bodyDef.position.set(-sprite.getWidth() / 2, -sprite.getHeight() / 2);
+		bodyDef.angle = MathUtils.PI / 2;
 		Body body = world.createBody(bodyDef);
 		body.getTransform().setRotation(MathUtils.PI / 2);
 		body.setUserData(sprite);
@@ -95,18 +96,16 @@ public class GameScreen extends ScreenAdapter {
 		
 		if(Gdx.input.isKeyPressed(Keys.W)) {
 			Body body = player.getComponent(Physics.class).getBody();
+			body.setLinearVelocity(body.getLinearVelocity().limit(MAX_PLAYER_SPEED));
 			body.applyForceToCenter(Vector2.X.cpy().scl(3).rotateRad(body.getTransform().getRotation()), true);
-			body.getLinearVelocity().clamp(0, MAX_PLAYER_SPEED);
-			Gdx.app.log("GameScreen", body.getLinearVelocity().toString());
 		}
 		if(Gdx.input.isKeyPressed(Keys.A)) {
 			Body body = player.getComponent(Physics.class).getBody();
 		}
 		if(Gdx.input.isKeyPressed(Keys.S)) {
 			Body body = player.getComponent(Physics.class).getBody();
+			body.setLinearVelocity(body.getLinearVelocity().limit(MAX_PLAYER_SPEED));
 			body.applyForceToCenter(Vector2.X.cpy().scl(3).rotateRad(body.getTransform().getRotation() + MathUtils.PI), true);
-			body.getLinearVelocity().clamp(0, MAX_PLAYER_SPEED);
-			Gdx.app.log("GameScreen", body.getLinearVelocity().toString());
 		}
 		if(Gdx.input.isKeyPressed(Keys.D)) {
 			Body body = player.getComponent(Physics.class).getBody();
@@ -114,8 +113,6 @@ public class GameScreen extends ScreenAdapter {
 		if(Gdx.input.isKeyPressed(Keys.SPACE)) {
 			
 		}
-		Body body = player.getComponent(Physics.class).getBody();
-		Gdx.app.log("GameScreen", body.getLinearVelocity().toString());
 		
 		engine.update(delta);
 	}
