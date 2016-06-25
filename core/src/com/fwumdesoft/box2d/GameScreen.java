@@ -25,7 +25,8 @@ import com.fwumdesoft.box2d.systems.PhysicsSystem;
 import com.fwumdesoft.box2d.systems.RenderSystem;
 
 public class GameScreen extends ScreenAdapter {
-	public static final float MAX_PLAYER_SPEED = 3f;
+	public static final float MAX_PLAYER_SPEED = 3f; // m/s
+	public static final float MAX_PLAYER_ANGULAR_SPEED = MathUtils.PI; // rad/s
 	
 	private FillViewport viewport;
 	private Batch batch;
@@ -101,6 +102,9 @@ public class GameScreen extends ScreenAdapter {
 		}
 		if(Gdx.input.isKeyPressed(Keys.A)) {
 			Body body = player.getComponent(Physics.class).getBody();
+			//limit angular velocity
+			body.setAngularVelocity(Math.signum(body.getAngularVelocity()) * MathUtils.clamp(Math.abs(body.getAngularVelocity()), 0, MAX_PLAYER_ANGULAR_SPEED));
+			body.applyAngularImpulse(90, true);
 		}
 		if(Gdx.input.isKeyPressed(Keys.S)) {
 			Body body = player.getComponent(Physics.class).getBody();
@@ -109,6 +113,9 @@ public class GameScreen extends ScreenAdapter {
 		}
 		if(Gdx.input.isKeyPressed(Keys.D)) {
 			Body body = player.getComponent(Physics.class).getBody();
+			//limit angular velocity
+			body.setAngularVelocity(Math.signum(body.getAngularVelocity()) * MathUtils.clamp(Math.abs(body.getAngularVelocity()), 0, MAX_PLAYER_ANGULAR_SPEED));
+			body.applyAngularImpulse(-90, true);
 		}
 		if(Gdx.input.isKeyPressed(Keys.SPACE)) {
 			
