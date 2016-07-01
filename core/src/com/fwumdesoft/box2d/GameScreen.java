@@ -25,9 +25,6 @@ import com.fwumdesoft.box2d.systems.PhysicsSystem;
 import com.fwumdesoft.box2d.systems.RenderSystem;
 
 public class GameScreen extends ScreenAdapter {
-	public static final float MAX_PLAYER_SPEED = 3f; // m/s
-	public static final float MAX_PLAYER_ANGULAR_SPEED = MathUtils.PI; // rad/s
-	
 	private FillViewport viewport;
 	private Batch batch;
 	private World world;
@@ -67,7 +64,7 @@ public class GameScreen extends ScreenAdapter {
 		
 		Physics physComp = engine.createComponent(Physics.class);
 		BodyDef bodyDef = new BodyDef();
-		bodyDef.type = BodyType.DynamicBody;
+		bodyDef.type = BodyType.KinematicBody;
 		bodyDef.position.set(-sprite.getWidth() / 2, -sprite.getHeight() / 2);
 		bodyDef.angle = MathUtils.PI / 2;
 		Body body = world.createBody(bodyDef);
@@ -97,24 +94,24 @@ public class GameScreen extends ScreenAdapter {
 		
 		if(Gdx.input.isKeyPressed(Keys.W)) {
 			Body body = player.getComponent(Physics.class).body;
-			body.setLinearVelocity(body.getLinearVelocity().limit(MAX_PLAYER_SPEED));
+			body.setLinearVelocity(body.getLinearVelocity().limit(Constants.MAX_PLAYER_SPEED));
 			body.applyForceToCenter(Vector2.X.cpy().scl(3).rotateRad(body.getTransform().getRotation()), true);
 		}
 		if(Gdx.input.isKeyPressed(Keys.A)) {
 			Body body = player.getComponent(Physics.class).body;
 			//limit angular velocity
-			body.setAngularVelocity(Math.signum(body.getAngularVelocity()) * MathUtils.clamp(Math.abs(body.getAngularVelocity()), 0, MAX_PLAYER_ANGULAR_SPEED));
+			body.setAngularVelocity(Math.signum(body.getAngularVelocity()) * MathUtils.clamp(Math.abs(body.getAngularVelocity()), 0, Constants.MAX_PLAYER_ANGULAR_SPEED));
 			body.applyAngularImpulse(90, true);
 		}
 		if(Gdx.input.isKeyPressed(Keys.S)) {
 			Body body = player.getComponent(Physics.class).body;
-			body.setLinearVelocity(body.getLinearVelocity().limit(MAX_PLAYER_SPEED));
+			body.setLinearVelocity(body.getLinearVelocity().limit(Constants.MAX_PLAYER_SPEED));
 			body.applyForceToCenter(Vector2.X.cpy().scl(3).rotateRad(body.getTransform().getRotation() + MathUtils.PI), true);
 		}
 		if(Gdx.input.isKeyPressed(Keys.D)) {
 			Body body = player.getComponent(Physics.class).body;
 			//limit angular velocity
-			body.setAngularVelocity(Math.signum(body.getAngularVelocity()) * MathUtils.clamp(Math.abs(body.getAngularVelocity()), 0, MAX_PLAYER_ANGULAR_SPEED));
+			body.setAngularVelocity(Math.signum(body.getAngularVelocity()) * MathUtils.clamp(Math.abs(body.getAngularVelocity()), 0, Constants.MAX_PLAYER_ANGULAR_SPEED));
 			body.applyAngularImpulse(-90, true);
 		}
 		if(Gdx.input.isKeyPressed(Keys.SPACE)) {
