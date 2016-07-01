@@ -14,7 +14,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FillViewport;
@@ -46,6 +50,29 @@ public class GameScreen extends ScreenAdapter {
 		engine.addSystem(physicsSystem);
 		engine.addSystem(renderSystem);
 		
+		// Add contact listener to the world
+		world.setContactListener(new ContactListener() {
+			@Override
+			public void beginContact(Contact contact) {
+				
+			}
+
+			@Override
+			public void endContact(Contact contact) {
+				
+			}
+
+			@Override
+			public void preSolve(Contact contact, Manifold oldManifold) {
+				
+			}
+
+			@Override
+			public void postSolve(Contact contact, ContactImpulse impulse) {
+				
+			}
+		});
+		
 		createPlayer();
 	}
 	
@@ -64,18 +91,21 @@ public class GameScreen extends ScreenAdapter {
 		
 		Physics physComp = engine.createComponent(Physics.class);
 		BodyDef bodyDef = new BodyDef();
-		bodyDef.type = BodyType.KinematicBody;
-		bodyDef.position.set(-sprite.getWidth() / 2, -sprite.getHeight() / 2);
-		bodyDef.angle = MathUtils.PI / 2;
+		bodyDef.type = BodyType.DynamicBody; // Needs to be dynamic to be affected by damping
+		bodyDef.position.set(-sprite.getWidth() / 2, -sprite.getHeight() / 2); // Center of screen
+		bodyDef.angle = MathUtils.PI / 2; // 90 degrees -- face up
+		bodyDef.angularDamping = 2f;
 		Body body = world.createBody(bodyDef);
-		body.getTransform().setRotation(MathUtils.PI / 2);
-		body.setUserData(sprite);
 		FixtureDef fixtureDef = new FixtureDef();
 		PolygonShape shape = new PolygonShape();
-		shape.set(new float[] {0, 0, 0, 3, 3, 3, 0, 3});
+		shape.set(new float[] {0, 0, sprite.getWidth(), 0, sprite.getWidth(), sprite.getHeight(), 0, sprite.getHeight()});
 		fixtureDef.shape = shape;
-		fixtureDef.density = 1f;
+		fixtureDef.friction = 0;
+		fixtureDef.isSensor = true;
+		fixtureDef.filter.categoryBits = Constants.PLAYER_CATEGORY_BITS;
+		fixtureDef.filter.maskBits = ~Constants.PLAYER_CATEGORY_BITS; // Can collide with non-player fixtures
 		body.createFixture(fixtureDef);
+		body.setUserData(sprite);
 		physComp.body = body;
 		player.add(physComp);
 		
@@ -94,25 +124,35 @@ public class GameScreen extends ScreenAdapter {
 		
 		if(Gdx.input.isKeyPressed(Keys.W)) {
 			Body body = player.getComponent(Physics.class).body;
-			body.setLinearVelocity(body.getLinearVelocity().limit(Constants.MAX_PLAYER_SPEED));
-			body.applyForceToCenter(Vector2.X.cpy().scl(3).rotateRad(body.getTransform().getRotation()), true);
+			Vector2 vel = body.getLinearVelocity();
+			vel.add(body.getTransform().getOrientation().nor().scl(Constants.PLAYER_ACC * delta));
+			if(vel.len() <= Constants.MAX_PLAYER_SPEED) {
+				body.setLinearVelocity(vel);
+			}
 		}
 		if(Gdx.input.isKeyPressed(Keys.A)) {
 			Body body = player.getComponent(Physics.class).body;
-			//limit angular velocity
-			body.setAngularVelocity(Math.signum(body.getAngularVelocity()) * MathUtils.clamp(Math.abs(body.getAngularVelocity()), 0, Constants.MAX_PLAYER_ANGULAR_SPEED));
-			body.applyAngularImpulse(90, true);
+			float angVel = body.getAngularVelocity();
+			angVel += Constants.PLAYER_ANGULAR_ACC * delta;
+			if(angVel <= Constants.MAX_PLAYER_ANGULAR_SPEED) {
+				body.setAngularVelocity(angVel);
+			}
 		}
 		if(Gdx.input.isKeyPressed(Keys.S)) {
 			Body body = player.getComponent(Physics.class).body;
-			body.setLinearVelocity(body.getLinearVelocity().limit(Constants.MAX_PLAYER_SPEED));
-			body.applyForceToCenter(Vector2.X.cpy().scl(3).rotateRad(body.getTransform().getRotation() + MathUtils.PI), true);
+			Vector2 vel = body.getLinearVelocity();
+			vel.add(body.getTransform().getOrientation().nor().scl(-Constants.PLAYER_ACC * delta));
+			if(vel.len() <= Constants.MAX_PLAYER_SPEED) {
+				body.setLinearVelocity(vel);
+			}
 		}
 		if(Gdx.input.isKeyPressed(Keys.D)) {
 			Body body = player.getComponent(Physics.class).body;
-			//limit angular velocity
-			body.setAngularVelocity(Math.signum(body.getAngularVelocity()) * MathUtils.clamp(Math.abs(body.getAngularVelocity()), 0, Constants.MAX_PLAYER_ANGULAR_SPEED));
-			body.applyAngularImpulse(-90, true);
+			float angVel = body.getAngularVelocity();
+			angVel -= Constants.PLAYER_ANGULAR_ACC * delta;
+			if(angVel <= Constants.MAX_PLAYER_ANGULAR_SPEED) {
+				body.setAngularVelocity(angVel);
+			}
 		}
 		if(Gdx.input.isKeyPressed(Keys.SPACE)) {
 			
