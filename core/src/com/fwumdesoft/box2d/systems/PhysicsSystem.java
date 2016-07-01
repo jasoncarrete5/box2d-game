@@ -30,10 +30,10 @@ public class PhysicsSystem extends IntervalIteratingSystem {
 	@Override
 	protected void processEntity(Entity entity) {
 		Physics physics = physicsMapper.get(entity);
-		if(physics.getBody().getUserData() instanceof Sprite) {
+		if(physics.body.getUserData() instanceof Sprite) {
 			//update sprite information
-			Sprite sprite = (Sprite)physics.getBody().getUserData();
-			Transform transform = physics.getBody().getTransform();
+			Sprite sprite = (Sprite)physics.body.getUserData();
+			Transform transform = physics.body.getTransform();
 			sprite.setPosition(transform.getPosition().x, transform.getPosition().y);
 			sprite.setRotation(transform.getRotation() * MathUtils.radDeg);
 		}

@@ -30,6 +30,6 @@ public class RenderSystem extends IteratingSystem {
 	@Override
 	protected void processEntity(Entity entity, float deltaTime) {
 		Render render = renderMapper.get(entity);
-		render.getSprite().draw(batch);
+		render.sprite.draw(batch);
 	}
 }

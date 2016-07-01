@@ -62,7 +62,7 @@ public class GameScreen extends ScreenAdapter {
 		Sprite sprite = new Sprite(App.asset.get(Assets.PLAYER_TEXTURE));
 		sprite.setSize(3, 3);
 		sprite.setOriginCenter();
-		renderComp.setSprite(sprite);
+		renderComp.sprite = sprite;
 		player.add(renderComp);
 		
 		Physics physComp = engine.createComponent(Physics.class);
@@ -79,7 +79,7 @@ public class GameScreen extends ScreenAdapter {
 		fixtureDef.shape = shape;
 		fixtureDef.density = 1f;
 		body.createFixture(fixtureDef);
-		physComp.setBody(body);
+		physComp.body = body;
 		player.add(physComp);
 		
 		engine.addEntity(player);
@@ -96,23 +96,23 @@ public class GameScreen extends ScreenAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		if(Gdx.input.isKeyPressed(Keys.W)) {
-			Body body = player.getComponent(Physics.class).getBody();
+			Body body = player.getComponent(Physics.class).body;
 			body.setLinearVelocity(body.getLinearVelocity().limit(MAX_PLAYER_SPEED));
 			body.applyForceToCenter(Vector2.X.cpy().scl(3).rotateRad(body.getTransform().getRotation()), true);
 		}
 		if(Gdx.input.isKeyPressed(Keys.A)) {
-			Body body = player.getComponent(Physics.class).getBody();
+			Body body = player.getComponent(Physics.class).body;
 			//limit angular velocity
 			body.setAngularVelocity(Math.signum(body.getAngularVelocity()) * MathUtils.clamp(Math.abs(body.getAngularVelocity()), 0, MAX_PLAYER_ANGULAR_SPEED));
 			body.applyAngularImpulse(90, true);
 		}
 		if(Gdx.input.isKeyPressed(Keys.S)) {
-			Body body = player.getComponent(Physics.class).getBody();
+			Body body = player.getComponent(Physics.class).body;
 			body.setLinearVelocity(body.getLinearVelocity().limit(MAX_PLAYER_SPEED));
 			body.applyForceToCenter(Vector2.X.cpy().scl(3).rotateRad(body.getTransform().getRotation() + MathUtils.PI), true);
 		}
 		if(Gdx.input.isKeyPressed(Keys.D)) {
-			Body body = player.getComponent(Physics.class).getBody();
+			Body body = player.getComponent(Physics.class).body;
 			//limit angular velocity
 			body.setAngularVelocity(Math.signum(body.getAngularVelocity()) * MathUtils.clamp(Math.abs(body.getAngularVelocity()), 0, MAX_PLAYER_ANGULAR_SPEED));
 			body.applyAngularImpulse(-90, true);
