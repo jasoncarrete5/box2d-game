@@ -11,8 +11,8 @@ public class Constants {
 	public static final float MAX_PLAYER_ANGULAR_SPEED = MathUtils.PI2 * 2; // rad/s
 	
 	/** Player change in speed. */
-	public static final float PLAYER_ACC = 7f; // m/s^2
-	public static final float MAX_PLAYER_SPEED = 20f; // m/s
+	public static final float PLAYER_ACC = 30f; // m/s^2
+	public static final float MAX_PLAYER_SPEED = 50f; // m/s
 	
 	public static final short PLAYER_CATEGORY_BITS = 1 << 1;
 }

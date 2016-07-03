@@ -93,6 +93,7 @@ public class GameScreen extends ScreenAdapter {
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyType.DynamicBody; // Needs to be dynamic to be affected by damping
 		bodyDef.position.set(-sprite.getWidth() / 2, -sprite.getHeight() / 2); // Center of screen
+		bodyDef.linearDamping = 0.25f;
 		bodyDef.angle = MathUtils.PI / 2; // 90 degrees -- face up
 		bodyDef.angularDamping = 2f;
 		Body body = world.createBody(bodyDef);
@@ -136,14 +137,6 @@ public class GameScreen extends ScreenAdapter {
 			angVel += Constants.PLAYER_ANGULAR_ACC * delta;
 			if(angVel <= Constants.MAX_PLAYER_ANGULAR_SPEED) {
 				body.setAngularVelocity(angVel);
-			}
-		}
-		if(Gdx.input.isKeyPressed(Keys.S)) {
-			Body body = player.getComponent(Physics.class).body;
-			Vector2 vel = body.getLinearVelocity();
-			vel.add(body.getTransform().getOrientation().nor().scl(-Constants.PLAYER_ACC * delta));
-			if(vel.len() <= Constants.MAX_PLAYER_SPEED) {
-				body.setLinearVelocity(vel);
 			}
 		}
 		if(Gdx.input.isKeyPressed(Keys.D)) {
