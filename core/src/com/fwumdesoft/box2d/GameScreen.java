@@ -43,35 +43,35 @@ public class GameScreen extends ScreenAdapter {
 		world = new World(Vector2.Zero.cpy(), true);
 		engine = new PooledEngine();
 		
-		PhysicsSystem physicsSystem = new PhysicsSystem(world);
-		physicsSystem.priority = 0;
-		RenderSystem renderSystem = new RenderSystem(batch, viewport);
-		renderSystem.priority = 1;
-		engine.addSystem(physicsSystem);
-		engine.addSystem(renderSystem);
-		
 		// Add contact listener to the world
 		world.setContactListener(new ContactListener() {
 			@Override
 			public void beginContact(Contact contact) {
 				
 			}
-
+			
 			@Override
 			public void endContact(Contact contact) {
 				
 			}
-
+			
 			@Override
 			public void preSolve(Contact contact, Manifold oldManifold) {
 				
 			}
-
+			
 			@Override
 			public void postSolve(Contact contact, ContactImpulse impulse) {
 				
 			}
 		});
+		
+		PhysicsSystem physicsSystem = new PhysicsSystem(world);
+		physicsSystem.priority = 0;
+		RenderSystem renderSystem = new RenderSystem(batch, viewport);
+		renderSystem.priority = 1;
+		engine.addSystem(physicsSystem);
+		engine.addSystem(renderSystem);
 		
 		createPlayer();
 	}
