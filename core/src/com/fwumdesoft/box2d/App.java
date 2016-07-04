@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 public class App extends Game {
 	public static class Assets {
 		public static final AssetDescriptor<Texture> PLAYER_TEXTURE = new AssetDescriptor<>(Gdx.files.internal("textures/player.png"), Texture.class);
+		public static final AssetDescriptor<Texture> ASTEROID_TEXTURE = new AssetDescriptor<>(Gdx.files.internal("textures/asteroid.png"), Texture.class);
 	}
 	
 	public static App game;
@@ -27,6 +28,7 @@ public class App extends Game {
 		uiskin = new Skin(Gdx.files.internal("ui/uiskin.json"));
 		asset = new AssetManager();
 		asset.load(Assets.PLAYER_TEXTURE);
+		asset.load(Assets.ASTEROID_TEXTURE);
 		asset.finishLoading();
 		
 		setScreen(new MainMenuScreen());
