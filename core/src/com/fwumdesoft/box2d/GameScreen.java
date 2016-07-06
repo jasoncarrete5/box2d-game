@@ -25,6 +25,7 @@ import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.fwumdesoft.box2d.App.Assets;
 import com.fwumdesoft.box2d.components.Physics;
 import com.fwumdesoft.box2d.components.Render;
+import com.fwumdesoft.box2d.systems.AsteroidSystem;
 import com.fwumdesoft.box2d.systems.PhysicsSystem;
 import com.fwumdesoft.box2d.systems.RenderSystem;
 
@@ -68,9 +69,12 @@ public class GameScreen extends ScreenAdapter {
 		
 		PhysicsSystem physicsSystem = new PhysicsSystem(world);
 		physicsSystem.priority = 0;
+		AsteroidSystem asteroidSystem = new AsteroidSystem(10, viewport, world);
+		asteroidSystem.priority = 1;
 		RenderSystem renderSystem = new RenderSystem(batch, viewport);
-		renderSystem.priority = 1;
+		renderSystem.priority = 2;
 		engine.addSystem(physicsSystem);
+		engine.addSystem(asteroidSystem);
 		engine.addSystem(renderSystem);
 		
 		createPlayer();
