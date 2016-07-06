@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IntervalIteratingSystem;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.Transform;
@@ -36,6 +37,8 @@ public class PhysicsSystem extends IntervalIteratingSystem {
 			Transform transform = physics.body.getTransform();
 			sprite.setPosition(transform.getPosition().x, transform.getPosition().y);
 			sprite.setRotation(transform.getRotation() * MathUtils.radDeg);
+		} else {
+			Gdx.app.debug("PhysicsSystem", "A body may be missing a sprite user object...");
 		}
 	}
 }
