@@ -15,4 +15,5 @@ public class Constants {
 	public static final float MAX_PLAYER_SPEED = 50f; // m/s
 	
 	public static final short PLAYER_CATEGORY_BITS = 1 << 1;
+	public static final short ASTEROID_CATEGORY_BITS = 1 << 2;
 }
