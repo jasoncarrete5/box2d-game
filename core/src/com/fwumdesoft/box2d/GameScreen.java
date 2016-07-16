@@ -69,7 +69,7 @@ public class GameScreen extends ScreenAdapter {
 		
 		PhysicsSystem physicsSystem = new PhysicsSystem(world);
 		physicsSystem.priority = 0;
-		AsteroidSystem asteroidSystem = new AsteroidSystem(10, viewport, world);
+		AsteroidSystem asteroidSystem = new AsteroidSystem(3, viewport, world);
 		asteroidSystem.priority = 1;
 		RenderSystem renderSystem = new RenderSystem(batch, viewport);
 		renderSystem.priority = 2;

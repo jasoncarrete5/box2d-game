@@ -72,7 +72,6 @@ public class AsteroidSystem extends IntervalSystem {
 		float upperBound = spawnLoc * 90 + 225;
 		bodyDef.linearVelocity.set(1, 0).rotate(MathUtils.random(upperBound - 90, upperBound)).scl(asteroidComp.type.SPEED);
 		Body body = world.createBody(bodyDef);
-		Gdx.app.log("AsteroidSystem", spawns[spawnLoc] + " :: " + body.getTransform().getPosition());
 		FixtureDef fixtureDef = new FixtureDef();
 		CircleShape shape = new CircleShape();
 		shape.setRadius(sprite.getWidth() / 2);
